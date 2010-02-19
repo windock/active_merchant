@@ -28,7 +28,7 @@ begin
   require 'active_support/all'
 rescue LoadError
   # support older versions of active_support
-  gem 'active_support'
+  require 'active_support'
 end
 
 require 'builder'
