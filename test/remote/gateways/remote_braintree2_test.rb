@@ -44,6 +44,21 @@ class RemoteBraintree2Test < Test::Unit::TestCase
     assert_equal customer_vault_id, response.params["braintree_transaction"].customer_details.id
   end
 
+  def test_successful_purchase_using_vault_id_as_integer
+    assert response = @gateway.store(@credit_card)
+    assert_success response
+    assert_equal 'OK', response.message
+    customer_vault_id = response.params["customer_vault_id"]
+    assert_match /\A\d{6,7}\z/, customer_vault_id
+
+    assert response = @gateway.purchase(@amount, customer_vault_id.to_i)
+    assert_success response
+    assert_equal '1000 Approved', response.message
+    assert_equal 'submitted_for_settlement', response.params["braintree_transaction"].status
+    assert_equal customer_vault_id, response.params["braintree_transaction"].customer_details.id
+  end
+
+
   def test_successful_purchase
     assert response = @gateway.purchase(@amount, @credit_card, @options)
     assert_success response
@@ -256,7 +271,7 @@ class RemoteBraintree2Test < Test::Unit::TestCase
   def test_successful_credit
     assert response = @gateway.credit(@amount, @credit_card, @options)
     assert_success response
-    assert_equal '1000 Approved', response.message
+    assert_equal '1002 Processed', response.message
     assert_equal 'submitted_for_settlement', response.params["braintree_transaction"].status
   end
 

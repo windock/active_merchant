@@ -1,11 +1,10 @@
 begin
   require "braintree"
 rescue LoadError
-  active_merchant_root_dir = File.expand_path(File.dirname(__FILE__) + "/../../../../")
-  $LOAD_PATH << "#{active_merchant_root_dir}/vendor/braintree-1.1.3/lib"
-  require "braintree"
+  raise "Could not load the braintree gem.  Use `gem install braintree` to install it."
 end
 
+raise "Need braintree gem >= 2.0.0. Run `gem update braintree` to upgrade." unless Braintree::Version::Major >= 2
 
 module ActiveMerchant #:nodoc:
   module Billing #:nodoc:
@@ -161,7 +160,7 @@ module ActiveMerchant #:nodoc:
             :submit_for_settlement => options[:submit_for_settlement]
           }
         }
-        if credit_card_or_vault_id.is_a?(String)
+        if credit_card_or_vault_id.is_a?(String) || credit_card_or_vault_id.is_a?(Integer)
           parameters[:customer_id] = credit_card_or_vault_id
         else
           parameters[:customer].merge!(
@@ -184,6 +183,8 @@ module ActiveMerchant #:nodoc:
             response_params[:braintree_transaction] = result.transaction
             response_params[:customer_vault_id] = result.transaction.customer_details.id
             response_options[:authorization] = result.transaction.id
+          end
+          if result.transaction
             avs_result = {
               'code' => '', 'message' => '',
               'street_match' => result.transaction.avs_street_address_response_code == 'M',
@@ -196,8 +197,7 @@ module ActiveMerchant #:nodoc:
           else
             message = message_from_result(result)
           end
-          success = result.success? && ["authorized", "submitted_for_settlement"].include?(result.transaction.status)
-          response = Response.new(success, message, response_params, response_options)
+          response = Response.new(result.success?, message, response_params, response_options)
           response.instance_variable_set("@avs_result", avs_result)
           response.instance_variable_set("@cvv_result", cvv_result)
           response
