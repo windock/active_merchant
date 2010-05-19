@@ -4,13 +4,13 @@ rescue LoadError
   raise "Could not load the braintree gem.  Use `gem install braintree` to install it."
 end
 
-raise "Need braintree gem >= 2.0.0. Run `gem update braintree` to upgrade." unless Braintree::Version::Major >= 2
+raise "Need braintree gem 2.x.y. Run `gem install braintree --version '~>2.0'` to get the correct version." unless Braintree::Version::Major == 2
 
 module ActiveMerchant #:nodoc:
   module Billing #:nodoc:
     class BraintreeBlueGateway < Gateway
       self.supported_countries = ['US']
-      self.supported_cardtypes = [:visa, :master, :american_express, :discover]
+      self.supported_cardtypes = [:visa, :master, :american_express, :discover, :jcb]
       self.homepage_url = 'http://www.braintreepaymentsolutions.com'
       self.display_name = 'Braintree (Blue Platform)'
 
