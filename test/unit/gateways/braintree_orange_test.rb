@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class Braintree1Test < Test::Unit::TestCase
+class BraintreeOrangeTest < Test::Unit::TestCase
   
   def setup
-    @gateway = Braintree1Gateway.new(
+    @gateway = BraintreeOrangeGateway.new(
       :login => 'LOGIN',
       :password => 'PASSWORD'
     )
@@ -53,11 +53,11 @@ class Braintree1Test < Test::Unit::TestCase
   end
   
   def test_supported_countries
-    assert_equal ['US'], Braintree1Gateway.supported_countries
+    assert_equal ['US'], BraintreeOrangeGateway.supported_countries
   end
 
   def test_supported_card_types
-    assert_equal [:visa, :master, :american_express, :discover], Braintree1Gateway.supported_cardtypes
+    assert_equal [:visa, :master, :american_express, :discover], BraintreeOrangeGateway.supported_cardtypes
   end
   
   def test_adding_store_adds_vault_id_flag

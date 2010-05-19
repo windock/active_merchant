@@ -24,11 +24,11 @@ beanstream_interac:
   user: username
   password: password
 
-braintree1:
+braintree_orange:
   login: demo
   password: password
 
-braintree2:
+braintree_blue:
   merchant_id: X
   public_key: Y
   private_key: Z

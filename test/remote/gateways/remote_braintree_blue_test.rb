@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class RemoteBraintree2Test < Test::Unit::TestCase
+class RemoteBraintreeBlueTest < Test::Unit::TestCase
   def setup
-    @gateway = BraintreeGateway.new(fixtures(:braintree2))
+    @gateway = BraintreeGateway.new(fixtures(:braintree_blue))
 
     @amount = 100
     @declined_amount = 2000_00
@@ -229,7 +229,7 @@ class RemoteBraintree2Test < Test::Unit::TestCase
   end
 
   def test_invalid_login
-    gateway = Braintree2Gateway.new(:merchant_id => "invalid", :public_key => "invalid", :private_key => "invalid")
+    gateway = BraintreeBlueGateway.new(:merchant_id => "invalid", :public_key => "invalid", :private_key => "invalid")
     assert response = gateway.purchase(@amount, @credit_card, @options)
     assert_failure response
     assert_equal 'Braintree::AuthenticationError', response.message

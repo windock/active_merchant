@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class RemoteBraintree1Test < Test::Unit::TestCase
+class RemoteBraintreeOrangeTest < Test::Unit::TestCase
   def setup
-    @gateway = BraintreeGateway.new(fixtures(:braintree1))
+    @gateway = BraintreeGateway.new(fixtures(:braintree_orange))
 
     @amount = rand(10000) + 1001
     @credit_card = credit_card('4111111111111111')
@@ -136,7 +136,7 @@ class RemoteBraintree1Test < Test::Unit::TestCase
   end
 
   def test_invalid_login
-    gateway = Braintree1Gateway.new(
+    gateway = BraintreeOrangeGateway.new(
                 :login => '',
                 :password => ''
               )

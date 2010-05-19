@@ -3,9 +3,9 @@ module ActiveMerchant #:nodoc:
     class BraintreeGateway
       def self.new(options={})
         if options.has_key?(:login)
-          Braintree1Gateway.new(options)
+          BraintreeOrangeGateway.new(options)
         else
-          Braintree2Gateway.new(options)
+          BraintreeBlueGateway.new(options)
         end
       end
     end

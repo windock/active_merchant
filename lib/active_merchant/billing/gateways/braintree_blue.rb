@@ -8,11 +8,11 @@ raise "Need braintree gem >= 2.0.0. Run `gem update braintree` to upgrade." unle
 
 module ActiveMerchant #:nodoc:
   module Billing #:nodoc:
-    class Braintree2Gateway < Gateway
+    class BraintreeBlueGateway < Gateway
       self.supported_countries = ['US']
       self.supported_cardtypes = [:visa, :master, :american_express, :discover]
       self.homepage_url = 'http://www.braintreepaymentsolutions.com'
-      self.display_name = 'Braintree'
+      self.display_name = 'Braintree (Blue Platform)'
 
       def initialize(options = {})
         requires!(options, :merchant_id, :public_key, :private_key)
